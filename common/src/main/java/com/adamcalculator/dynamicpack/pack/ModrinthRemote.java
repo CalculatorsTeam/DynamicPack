@@ -27,7 +27,8 @@ public class ModrinthRemote extends Remote {
     public void init(Pack parent, JSONObject json, JSONObject current) {
         this.parent = parent;
         this.cachedCurrentJson = current;
-        this.projectId = json.getString("modrinth_project_id");
+        this.projectId = json.opt("project_id").toString();
+        if (this.projectId == null) this.projectId = json.getString("modrinth_project_id");
         var ver = json.optString("game_version", "no_specify");
         this.usesCurrentGameVersion = ver.equalsIgnoreCase("current");
         this.noSpecifyGameVersion = ver.equalsIgnoreCase("no_specify");
