@@ -34,7 +34,7 @@ If you want your package to update itself from **Modrinth**, you need to add the
     },
     "remote": {
       "game_version": "1.20.1", // game version
-      "modrinth_project_id": "better-leaves", // your project identifier
+      "project_id": "better-leaves", // your project identifier
       "type": "modrinth"
     },
     "formatVersion": 1
