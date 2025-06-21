@@ -3,10 +3,12 @@ package com.adamcalculator.dynamicpack.client.mixin;
 import com.adamcalculator.dynamicpack.DynamicPackMod;
 import com.adamcalculator.dynamicpack.client.GameStartSyncing;
 import com.adamcalculator.dynamicpack.util.Out;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.repository.PackRepository;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -42,8 +44,8 @@ public class PackRepositoryMixin {
 
                 try {
 //                    RenderSystem.applyModelViewMatrix();
-                    RenderSystem.clearColor(0.074f + (((float)syncing.getPercentage() / 100f)), 0.04f, (float) (0.24f + (Math.sin(System.currentTimeMillis() / 300f) / 2)), 1f);
-                    RenderSystem.clear(16640);
+                    GL11.glClearColor(0.074f + (((float)syncing.getPercentage() / 100f)), 0.04f, (float) (0.24f + (Math.sin(System.currentTimeMillis() / 300f) / 2)), 1f);
+                    GlStateManager._clear(16640);
                     GLFW.glfwSwapBuffers(client.getWindow().getWindow());
 
                 } catch (Exception e) {

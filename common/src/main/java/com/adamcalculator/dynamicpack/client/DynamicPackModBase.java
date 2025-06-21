@@ -21,6 +21,8 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.GsonHelper;
 
+import java.net.URI;
+
 
 /**
  * Base impl for DynamicPack mod (minecraft logic)
@@ -54,9 +56,9 @@ public abstract class DynamicPackModBase extends DynamicPackMod {
     private Component createDownloadComponent() {
         return Component.translatable("dynamicpack.status_checker.download")
                 .withStyle(Style.EMPTY
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("dynamicpack.status_checker.download.hover",
+                        .withHoverEvent(new HoverEvent.ShowText(Component.translatable("dynamicpack.status_checker.download.hover",
                                 Component.literal(SharedConstrains.MODRINTH_URL).withStyle(ChatFormatting.UNDERLINE, ChatFormatting.AQUA))))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, SharedConstrains.MODRINTH_URL))
+                        .withClickEvent(new ClickEvent.OpenUrl(URI.create(SharedConstrains.MODRINTH_URL)))
                 )
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.UNDERLINE);
     }

@@ -60,7 +60,7 @@ public class Compat {
     }
 
     public static void drawTexture(GuiGraphics context, ResourceLocation texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-        RenderSystem.setShaderTexture(0, texture);
+        RenderSystem.setShaderTexture(0, Minecraft.getInstance().getTextureManager().getTexture(texture).getTexture());
         context.blit(RenderType::guiTextured, texture, x, y, u, v, width, height, textureWidth, textureHeight);
     }
 
