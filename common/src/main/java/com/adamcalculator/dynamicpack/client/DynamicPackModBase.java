@@ -105,7 +105,7 @@ public abstract class DynamicPackModBase extends DynamicPackMod {
     @Override
     public String getCurrentGameVersion() {
         SharedConstants.tryDetectVersion();
-        return SharedConstants.getCurrentVersion().getName();
+        return SharedConstants.getCurrentVersion().name();
     }
 
     @Override

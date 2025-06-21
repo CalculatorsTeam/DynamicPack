@@ -11,9 +11,9 @@ base {
 
 
 dependencies {
-    modImplementation "com.terraformersmc:modmenu:14.0.0-rc.2"
-    modImplementation("dev.isxander:yet-another-config-lib:3.6.6+1.21.5-fabric")
-    include(modImplementation("io.gitlab.jfronny.libjf:libjf-resource-pack-entry-widgets-v0:3.18.5"))
+    modImplementation "com.terraformersmc:modmenu:15.0.0-beta.2"
+    modImplementation("dev.isxander:yet-another-config-lib:3.7.1+1.21.6-fabric")
+    include(modImplementation("io.gitlab.jfronny.libjf:libjf-resource-pack-entry-widgets-v0:3.18.7"))
 
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()

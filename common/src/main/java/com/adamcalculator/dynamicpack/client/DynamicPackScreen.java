@@ -60,12 +60,12 @@ public class DynamicPackScreen extends Screen {
         }
 
         int h = 20;
-        Compat.drawString(context, this.font, this.title, 20, 8, 16777215);
-        Compat.drawWrappedString(context, Component.translatable("dynamicpack.screen.pack.description").getString(999), 20, 20 + h, width - 125, 2, ChatFormatting.GREEN.getColor());
-        Compat.drawString(context, this.font, Component.translatable("dynamicpack.screen.pack.remote_type", pack.getRemoteType()), 20, 40 + h, 16777215);
+        Compat.drawString(context, this.font, this.title, 20, 8, 0xFFFFFFFF);
+        Compat.drawWrappedString(context, Component.translatable("dynamicpack.screen.pack.description").getString(999), 20, 20 + h, width - 125, 2, 0xFF55FF55);
+        Compat.drawString(context, this.font, Component.translatable("dynamicpack.screen.pack.remote_type", pack.getRemoteType()), 20, 40 + h, 0xFFFFFFFF);
 
         if (SyncingTask.isSyncing()) {
-            Compat.drawWrappedString(context, SyncingTask.getLogs(), 20, 78+30 + h, 500, 99, 0xCCCCCC);
+            Compat.drawWrappedString(context, SyncingTask.getLogs(), 20, 78+30 + h, 500, 99, 0xFFCCCCCC);
 
             StringBuilder asciiPercentage = new StringBuilder();
             int percentage = 0;
@@ -88,13 +88,13 @@ public class DynamicPackScreen extends Screen {
             if ((latestUpdated = pack.getLatestUpdated()) > 0) {
                 Date date = new Date(latestUpdated * 1000);
                 String string = DateFormat.getDateTimeInstance().format(date);
-                Compat.drawString(context, this.font, Component.translatable("dynamicpack.screen.pack.latestUpdated", string), 20, 52 + h, 16777215);
+                Compat.drawString(context, this.font, Component.translatable("dynamicpack.screen.pack.latestUpdated", string), 20, 52 + h, 0xFFFFFFFF);
             }
 
             h += 4;
             Exception exception = pack.getLatestException();
             if (exception != null) {
-                Compat.drawWrappedString(context, Component.translatable("dynamicpack.screen.pack.latestException", TranslatableException.getComponentFromException(exception)).getString(512), 20, 78 + h, width - 40, 4, 0xff2222);
+                Compat.drawWrappedString(context, Component.translatable("dynamicpack.screen.pack.latestException", TranslatableException.getComponentFromException(exception)).getString(512), 20, 78 + h, width - 40, 4, 0xFFFF2222);
             }
         }
     }

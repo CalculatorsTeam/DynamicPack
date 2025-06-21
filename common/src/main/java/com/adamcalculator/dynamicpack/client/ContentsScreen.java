@@ -108,7 +108,7 @@ public class ContentsScreen extends Screen {
     public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         contentsList.render(context, mouseX, mouseY, delta);
-        Compat.drawCenteredString(context, this.font, this.title, this.width / 2, 8, 16777215);
+        Compat.drawCenteredString(context, this.font, this.title, this.width / 2, 8, 0xFFFFFFFF);
     }
 
     @Override
