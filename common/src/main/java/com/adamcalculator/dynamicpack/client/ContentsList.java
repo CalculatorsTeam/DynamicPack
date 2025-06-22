@@ -161,7 +161,7 @@ public class ContentsList extends ContainerObjectSelectionList<ContentsList.Cont
                 txt = name;
             }
             Component text = Component.literal(txt);
-            context.drawString(ContentsList.this.minecraft.font, text, (x - 50), y+10, 0xFFFFFFFF, false);
+            context.drawString(ContentsList.this.minecraft.font, text, (x - 50), y+10, 0xFFFFFFFF);
             this.stateButton.setX(x+entryWidth-140);
             this.stateButton.setY(y);
             this.stateButton.render(context, mouseX, mouseY, tickDelta);
