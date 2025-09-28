@@ -1,110 +1,63 @@
-# Kotlin Modstitch Stonecutter Template
+# DynamicPack
+A mod that will monitor the current version of your resource pack and download automatically!
 
-This repository provides a **multi-loader Minecraft mod development template written in Kotlin**, designed for use with the **Modstitch** and **Stonecutter** Gradle plugins. It supports **Fabric**, **Forge**, and **NeoForge** targets across multiple Minecraft versions
+![https://img.shields.io/badge/Enviroment-Client-purple](https://img.shields.io/badge/Enviroment-Client-purple)  
+[![Static Badge](https://img.shields.io/badge/Github-gray?logo=github)
+](https://github.com/CalculatorsTeam/DynamicPack)
 
-> 🛠️ **Based on**: [isXander/modstitch-stonecutter-template](https://github.com/isXander/modstitch-stonecutter-template) — then modified to ensure it builds and runs successfully
+[![Java CI with Gradle](https://github.com/CalculatorsTeamAdamCalculator/DynamicPack/actions/workflows/gradle.yml/badge.svg)](https://github.com/AdamCalculator/DynamicPack/actions/workflows/gradle.yml)
 
-## 🚀 Features
+[![Banner](https://api.mcbanners.com/banner/saved/wveMrFfPsqwXbV.png)](https://modrinth.com/mod/dynamicpack)
 
-- **Multi-Loader Support**: build for Fabric, Forge, and NeoForge from one codebase
-- **Multi-Version Support**: 1.20.1 and 1.21.1 (easily extensible)
-- **Kotlin-Ready**: JVM toolchain, compiler settings, and Kotlin integrations are fully preconfigured
-- **CI-Ready**: GitHub Actions workflow for multiplatform builds
-- **Stonecutter Integration**: powerful Gradle preprocessor and environment-specific configuration via properties
-- **Modstitch-Powered**: leverages Modstitch to abstract loader-specific tasks
-- **Mixin Support**: set up mixins with proper configuration
+## Documentation
+[**Available here**](https://github.com/CalculatorsTeam/DynamicPack/wiki)
 
+## Packs using it mod
+* [Better Tables](https://modrinth.com/resourcepack/bettertables)
+* [CursedEveryday (github)](https://github.com/AdamCalculator/CursedEveryday/releases/tag/day4)
+* [ModsRU](https://modrinth.com/resourcepack/mods-ru)
+* [zelda-music](https://modrinth.com/resourcepack/zelda-music)
+* [PawTotems (smp) (github)](https://github.com/1NFERR/PawTotems/)
+* [SPPack (smp) (github)](https://github.com/aladairmaxwell/SP)
+* [Essentially Tweaked](https://modrinth.com/resourcepack/essentially-tweaked)
+* [Vanilla Leaves](https://modrinth.com/resourcepack/vanilla-leaves)
+
+## Plans
+The mod is planned to support **any bootloader** and any version, but I don't have enough time right now. **I'm always happy to see new contributors!**
+
+## How it works
+Resource pack developers need to create a `dynamicmcpack.json` file inside the resource pack, which will save some information, and the mod will update when the game starts if resource pack files are required.
+
+## For users
+Install and it will automatically update supported resource packs.
+
+⚠️ Since the mod is being actively developed, it is not yet possible to check resource packs for updates, but this will be added in the future.
+
+
+## For developers
+If you want your package to update itself from **Modrinth**, you need to add the `dynamicmcpack.json` file to the following content:
+```json5
+{
+    "current": {
+      "version_number": "7.1" // version of the current pack
+    },
+    "remote": {
+      "game_version": "1.21.1", // game version
+      "modrinth_project_id": "better-leaves", // your project identifier
+      "type": "modrinth"
+    },
+    "formatVersion": 1
+}
 ```
-ExampleMod/
-├── .github/workflows/build.yml    # CI/CD configuration
-├── build.gradle.kts               # Main build configuration
-├── stonecutter.gradle.kts         # Multi-version build setup
-├── settings.gradle.kts            # Gradle settings
-├── gradle.properties              # Base project properties
-├── src/main/
-│   ├── kotlin/                    # Kotlin source code
-│   │   └── com/author/examplemod/
-│   │       ├── ExampleMod.kt      # Main mod class
-│   │       └── platform/          # Platform-specific code
-│   ├── java/                      # Java source (for Mixins)
-│   │   └── com/author/examplemod/mixins/
-│   ├── resources/                 # Resources and configuration
-│   └── templates/                 # Platform-specific templates
-└── versions/                      # Version-specific configurations
-    ├── 1.20.1-fabric/
-    ├── 1.20.1-forge/
-    ├── 1.21.1-fabric/
-    └── 1.21.1-neoforge/
-```
+**⚠️⚠️⚠️ JSON Specification not support //comments! Delete it before use.**
 
-## ⚙️ Quick Start
+You can validate your JSON [here](https://jsonformatter.curiousconcept.com/#)
 
-### Setup
 
-1. **Use this template** or clone the repository:
-   ```bash
-   git clone https://github.com/Riflusso/modstitch-kotlin-stonecutter-template.git
-   cd modstitch-kotlin-stonecutter-template
-   ```
+For other features (dynamic repos) visit [github wiki!](https://github.com/CalculatorsTeam/DynamicPack/wiki)
 
-2. **Configure your mod** by editing `gradle.properties`:
-   ```properties
-   modId=your_mod_id
-   modName=Your Mod Name
-   modDescription=Your mod description
-   modAuthor=Your Name
-   modGroup=com.yourname
-   ```
 
-3. **Update package structure**:
-    - Rename packages from `com.author.examplemod` to match your `modGroup`
-    - Update imports and references accordingly
+## Donate
+The project is completely free and open under the MIT licence. You can help original author by donating ❤️
 
-4. **Test the setup** by running any version:
-   ```bash
-   # You can run any version regardless of which is active:
-   ./gradlew :1.21.1-fabric:runClient
-   ./gradlew :1.20.1-forge:runClient
-   ./gradlew :1.21.1-neoforge:runClient
-   ```
-5. **Build project** for every version:
-    ```bash
-    # Build all versions
-    ./gradlew build
-   ```
-   Artifacts will appear under `versions/[version]/build/libs/`
-
-## 📋 Customization Guide
-
-### Adding New Minecraft Versions
-
-1. **Update `settings.gradle.kts`**:
-   ```kotlin
-   mc("1.22.0", loaders = listOf("fabric", "neoforge"))
-   ```
-
-2. **Create version directory**:
-   ```
-   # Version folders example
-   versions/1.22.0-fabric/gradle.properties
-   versions/1.22.0-neoforge/gradle.properties
-   ```
-
-3. **Configure dependencies** in the new `gradle.properties`
-
-### Adding New Features
-
-1. **Main logic**: Add to `ExampleMod.kt`
-2. **Platform/Version-specific code**: Use conditional compilation as in `PlatformEntrypoint.kt`
-3. **Mixins**: Add to `src/main/java/.../mixins/`
-4. **Resources**: Add to `src/main/resources/`
-
-## 📚 Resources
-
-- [Fabric Documentation](https://fabricmc.net/wiki/)
-- [NeoForge Documentation](https://docs.neoforged.net/)
-- [Forge Documentation](https://docs.minecraftforge.net/)
-- [Stonecutter Documentation](https://stonecutter.kikugie.dev/)
-- [Modstitch Documentation](https://isXander.github.io/modstitch-docs/)
-- [KotlinForForge](https://github.com/TheDarkColour/KotlinForForge)
-- [Fabric Language Kotlin](https://github.com/FabricMC/fabric-language-kotlin)
+**Bitcoin:** `bc1qpc0q9ym7rnfatdh43c4jyf68znj8x2jae5j4cz`
