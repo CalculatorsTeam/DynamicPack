@@ -1,0 +1,3 @@
+accessWidener	v1	named
+accessible method net/minecraft/client/gui/components/AbstractSelectionList getRowTop (I)I
+accessible class net/minecraft/server/packs/FilePackResources$SharedZipFileAccess

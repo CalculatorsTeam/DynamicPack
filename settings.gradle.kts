@@ -1,0 +1,35 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven("https://maven.fabricmc.net/")
+        maven("https://maven.architectury.dev")
+        maven("https://maven.neoforged.net/releases/")
+        maven("https://maven.minecraftforge.net/")
+        maven("https://maven.kikugie.dev/releases")
+        maven("https://maven.kikugie.dev/snapshots")
+        maven("https://maven.isxander.dev/releases")
+    }
+}
+
+plugins {
+    id("dev.kikugie.stonecutter") version "0.7.10"
+}
+
+stonecutter {
+    kotlinController = true
+    centralScript = "build.gradle.kts"
+
+    create(rootProject) {
+        fun mc(mcVersion: String, name: String = mcVersion, loaders: Iterable<String>) =
+            loaders.forEach { version("$name-$it", mcVersion) }
+
+        mc("1.20.1", loaders = listOf("fabric", "forge"))
+        mc("1.21.1", loaders = listOf("fabric", "neoforge"))
+        mc("1.21.3", loaders = listOf("fabric", "neoforge"))
+        mc("1.21.4", loaders = listOf("fabric", "neoforge"))
+        mc("1.21.5", loaders = listOf("fabric", "neoforge"))
+        mc("1.21.8", loaders = listOf("fabric", "neoforge"))
+    }
+}
+rootProject.name = "DynamicPack"
