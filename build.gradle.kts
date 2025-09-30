@@ -5,6 +5,7 @@ import java.util.Locale
 plugins {
     id("dev.kikugie.stonecutter")
     id("dev.isxander.modstitch.base")
+    id("dev.isxander.modstitch.publishing")
     kotlin("jvm")
     `maven-publish`
 }
@@ -153,6 +154,95 @@ dependencies {
     }
 }
 
+msPublishing {
+    maven {
+        repositories {
+            mavenLocal()
+        }
+    }
+
+    fun versionList(prop: String) = findProperty(prop)?.toString()
+        ?.split(',')
+        ?.map { it.trim() }
+        ?: emptyList()
+
+    val stableMCVersions = versionList("pub.stableMC")
+
+    mpp {
+        displayName.set("$versionWithoutMC for $loader $mcVersion")
+
+        changelog.set(
+            file("CHANGELOG.md")
+                .takeIf { it.exists() }
+                ?.readText()
+        )
+
+        type = when {
+            isAlpha -> ALPHA
+            isBeta -> BETA
+            else -> STABLE
+        }
+
+        modLoaders.add(loader)
+
+        val modrinthId: String by project
+        if (modrinthId.isNotBlank() && hasProperty("MODRINTH_TOKEN")) {
+            modrinth {
+                projectId.set(modrinthId)
+                accessToken.set(findProperty("MODRINTH_TOKEN")?.toString())
+                minecraftVersions.addAll(stableMCVersions)
+                minecraftVersions.addAll(versionList("pub.modrinthMC"))
+
+                if (isFabric) {
+                    requires { slug.set("fabric-language-kotlin") }
+                }
+                if (isForgeLike) {
+                    requires { slug.set("kotlin-for-forge") }
+                }
+                optional { slug.set("yacl") }
+            }
+        }
+
+        val curseforgeId: String by project
+        if (curseforgeId.isNotBlank() && hasProperty("CURSEFORGE_TOKEN")) {
+            curseforge {
+                projectId = curseforgeId
+                projectSlug = findProperty("curseforgeSlug")?.toString() ?: error("curseforgeSlug property not found")
+                accessToken = findProperty("CURSEFORGE_TOKEN")?.toString()
+                minecraftVersions.addAll(stableMCVersions)
+                minecraftVersions.addAll(versionList("pub.curseMC"))
+
+                if (isFabric) {
+                    requires { slug.set("fabric-language-kotlin") }
+                }
+                if (isForgeLike) {
+                    requires { slug.set("kotlin-for-forge") }
+                }
+                optional { slug.set("yacl") }
+            }
+        }
+
+        val githubProject: String by project
+        if (githubProject.isNotBlank() && hasProperty("GH_TOKEN")) {
+            github {
+                repository.set(githubProject)
+                accessToken.set(findProperty("GH_TOKEN")?.toString())
+                commitish.set(gitBranch())
+            }
+        }
+
+        if (hasProperty("DISCORD_WEBHOOK")) {
+            discord {
+                username.set("DynamicPack Updates")
+                webhookUrl.set(findProperty("DISCORD_WEBHOOK")?.toString())
+                content.set(changelog)
+            }
+        }
+
+        dryRun = true
+    }
+}
+
 // ========== Tasks ==========
 tasks {
     withType<KotlinCompile>().configureEach {
@@ -181,6 +271,16 @@ fun resolveProp(property: String): String? =
 fun gitHash(): String {
     val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD")
         .redirectErrorStream(true) // combine stdout + stderr
+        .start()
+
+    val text = process.inputStream.bufferedReader().use { it.readText() }
+
+    return text.trim()
+}
+
+fun gitBranch(): String {
+    val process = ProcessBuilder("git", "rev-parse", "--abbrev-ref", "HEAD")
+        .redirectErrorStream(true) // объединяем stdout и stderr
         .start()
 
     val text = process.inputStream.bufferedReader().use { it.readText() }
