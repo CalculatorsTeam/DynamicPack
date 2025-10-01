@@ -172,9 +172,10 @@ msPublishing {
         displayName.set("$versionWithoutMC for $loader $mcVersion")
 
         changelog.set(
-            file("CHANGELOG.md")
+            file("../../CHANGELOG.md")
                 .takeIf { it.exists() }
                 ?.readText()
+                ?: "No changelog provided."
         )
 
         type = when {
@@ -182,8 +183,6 @@ msPublishing {
             isBeta -> BETA
             else -> STABLE
         }
-
-        modLoaders.add(loader)
 
         val modrinthId: String by project
         if (modrinthId.isNotBlank() && hasProperty("MODRINTH_TOKEN")) {
@@ -222,8 +221,11 @@ msPublishing {
             }
         }
 
+        val active = stonecutter.active?.project
+        var current = "$mcVersion-$loader"
+
         val githubProject: String by project
-        if (githubProject.isNotBlank() && hasProperty("GH_TOKEN")) {
+        if (githubProject.isNotBlank() && hasProperty("GH_TOKEN") && active == current) {
             github {
                 repository.set(githubProject)
                 accessToken.set(findProperty("GH_TOKEN")?.toString())
@@ -231,15 +233,13 @@ msPublishing {
             }
         }
 
-        if (hasProperty("DISCORD_WEBHOOK")) {
+        if (hasProperty("DISCORD_WEBHOOK") && active == current) {
             discord {
                 username.set("DynamicPack Updates")
                 webhookUrl.set(findProperty("DISCORD_WEBHOOK")?.toString())
                 content.set(changelog)
             }
         }
-
-        dryRun = true
     }
 }
 
