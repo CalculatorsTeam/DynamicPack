@@ -168,6 +168,11 @@ msPublishing {
 
     val stableMCVersions = versionList("pub.stableMC")
 
+    val modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+    val curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+    val ghToken = providers.environmentVariable("GH_TOKEN")
+    val discordWH = providers.environmentVariable("DISCORD_WEBHOOK")
+
     mpp {
         displayName.set("$versionWithoutMC for $loader $mcVersion")
 
@@ -185,10 +190,10 @@ msPublishing {
         }
 
         val modrinthId: String by project
-        if (modrinthId.isNotBlank() && hasProperty("MODRINTH_TOKEN")) {
+        if (modrinthId.isNotBlank() && modrinthToken.isPresent) {
             modrinth {
                 projectId.set(modrinthId)
-                accessToken.set(findProperty("MODRINTH_TOKEN")?.toString())
+                accessToken.set(modrinthToken)
                 minecraftVersions.addAll(stableMCVersions)
                 minecraftVersions.addAll(versionList("pub.modrinthMC"))
 
@@ -203,11 +208,11 @@ msPublishing {
         }
 
         val curseforgeId: String by project
-        if (curseforgeId.isNotBlank() && hasProperty("CURSEFORGE_TOKEN")) {
+        if (curseforgeId.isNotBlank() && curseforgeToken.isPresent) {
             curseforge {
                 projectId = curseforgeId
                 projectSlug = findProperty("curseforgeSlug")?.toString() ?: error("curseforgeSlug property not found")
-                accessToken = findProperty("CURSEFORGE_TOKEN")?.toString()
+                accessToken = curseforgeToken
                 minecraftVersions.addAll(stableMCVersions)
                 minecraftVersions.addAll(versionList("pub.curseMC"))
 
@@ -225,18 +230,18 @@ msPublishing {
         var current = "$mcVersion-$loader"
 
         val githubProject: String by project
-        if (githubProject.isNotBlank() && hasProperty("GH_TOKEN") && active == current) {
+        if (githubProject.isNotBlank() && ghToken.isPresent && active == current) {
             github {
                 repository.set(githubProject)
-                accessToken.set(findProperty("GH_TOKEN")?.toString())
+                accessToken.set(ghToken)
                 commitish.set(gitBranch())
             }
         }
 
-        if (hasProperty("DISCORD_WEBHOOK") && active == current) {
+        if (discordWH.isPresent && active == current) {
             discord {
                 username.set("DynamicPack Updates")
-                webhookUrl.set(findProperty("DISCORD_WEBHOOK")?.toString())
+                webhookUrl.set(discordWH)
                 content.set(changelog)
             }
         }
