@@ -13,8 +13,8 @@ object Constants {
     const val DEBUG_ALLOW_UNSECURE: Boolean = false
     @JvmField var DEBUG_LOGS: Boolean = false
 
-    const val VERSION_BUILD: Long = 50
-    const val VERSION_NAME_MOD: String = "1.2"
+    const val VERSION_BUILD: Long = 51
+    const val VERSION_NAME_MOD: String = "1.2.1"
     /*? if >=1.21.9 {*/
     const val VERSION_NAME_BRANCH: String = "mc1.21.10"
     /*?} else if >=1.21.6 {*/
