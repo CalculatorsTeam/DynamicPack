@@ -43,7 +43,7 @@ public class PackRepositoryMixin {
                     VersionFunctions.applyModelViewMatrix();
                     VersionFunctions.clearColor(0.074f + (((float)syncing.getPercentage() / 100f)), 0.04f, (float) (0.24f + (Math.sin(System.currentTimeMillis() / 300f) / 2)), 1f);
                     VersionFunctions.clear(16640);
-                    GLFW.glfwSwapBuffers(client.getWindow().getWindow());
+                    GLFW.glfwSwapBuffers(client.getWindow()/*? if >=1.21.9 {*/.handle()/*?} else {*//*.getWindow()*//*?}*/);
 
                 } catch (Exception e) {
                     Out.error("Error while manipulations with OpenGL", e);

@@ -13,7 +13,7 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.kikugie.stonecutter") version "0.7.10"
+    id("dev.kikugie.stonecutter") version "0.7.+"
 }
 
 stonecutter {
@@ -30,6 +30,7 @@ stonecutter {
         mc("1.21.4", loaders = listOf("fabric", "neoforge"))
         mc("1.21.5", loaders = listOf("fabric", "neoforge"))
         mc("1.21.8", loaders = listOf("fabric", "neoforge"))
+        mc("1.21.10", loaders = listOf("fabric", "neoforge"))
     }
 }
 rootProject.name = "DynamicPack"

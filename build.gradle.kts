@@ -71,6 +71,7 @@ modstitch {
                 "1.21.4" -> 61
                 "1.21.5" -> 71
                 "1.21.8" -> 81
+                "1.21.10" -> 88
                 else -> throw IllegalArgumentException("Please store the resource pack version for $mcVersion in build.gradle.kts! https://minecraft.wiki/w/Pack_format")
             }.toString()
         )

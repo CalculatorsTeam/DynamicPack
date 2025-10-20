@@ -69,12 +69,21 @@ open class NoYACLScreen(private val parent: Screen) : Screen(Component.translata
         /*super.render(context, mouseX, mouseY, delta)*/
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+    /*? if >=1.21.9 {*/
+    override fun mouseClicked(click: net.minecraft.client.input.MouseButtonEvent, isDoubleClick: Boolean): Boolean {
+        if (super.mouseClicked(click, isDoubleClick)) {
+    /*?} else {*/
+    /*override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (super.mouseClicked(mouseX, mouseY, button)) {
+    *//*?}*/
             return true
         }
 
-        val style = getStyle(mouseX.toInt(), mouseY.toInt()) ?: return false
+        /*? if >=1.21.9 {*/
+        val style = getStyle(click.x.toInt(), click.y.toInt()) ?: return false
+        /*?} else {*/
+        /*val style = getStyle(mouseX.toInt(), mouseY.toInt()) ?: return false
+        *//*?}*/
 
         if (minecraft?.player == null) {
             val click = style.clickEvent ?: return false
