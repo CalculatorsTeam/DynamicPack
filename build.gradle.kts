@@ -230,15 +230,6 @@ msPublishing {
         val active = stonecutter.active?.project
         var current = "$mcVersion-$loader"
 
-        val githubProject: String by project
-        if (githubProject.isNotBlank() && ghToken.isPresent && active == current) {
-            github {
-                repository.set(githubProject)
-                accessToken.set(ghToken)
-                commitish.set(gitBranch())
-            }
-        }
-
         if (discordWH.isPresent && active == current) {
             discord {
                 username.set("DynamicPack Updates")
