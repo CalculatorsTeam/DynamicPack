@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TransferableSelectionList.PackEntry.class)
-public abstract class ResourcePackEntryMixin {
+public abstract class ResourcePackEntryMixin/*? if >=1.21.9 {*/ extends net.minecraft.client.gui.components.ObjectSelectionList.Entry<TransferableSelectionList.Entry>/*?}*/ {
 
     @Shadow
     protected abstract boolean showHoverOverlay();
@@ -41,9 +41,15 @@ public abstract class ResourcePackEntryMixin {
     private static final ResourcePackEntryWidget DYNAMIC_WIDGET = new DynamicPackResourcePackEntryWidget();
 
     @Inject(at = @At("TAIL"),
-            method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIZF)V")
-    private void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight,
-                        int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo info) {
+            /*? if >=1.21.9 {*/
+            method = "renderContent"
+            /*?} else {*/
+            /*method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIZF)V"
+            *//*?}*/
+    )
+    private void render(GuiGraphics context, /*? if <1.21.9 {*//*int index, int y, int x, int entryWidth, int entryHeight,*//*?}*/ int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo info) {
+        //? if >=1.21.9
+        final int x = this.getX(), y = this.getY() + 2, entryWidth = this.getWidth(), entryHeight = this.getHeight();
         int prevMargin = 0;
         /*? if >=1.21 {*/
         int deltaX = 3 + (VersionFunctions.maxScrollAmount(parent) > 0 ? 7 : 0);
@@ -63,7 +69,11 @@ public abstract class ResourcePackEntryMixin {
         } else {
             ResourcePackEntryWidget widget = DYNAMIC_WIDGET;
             if (widget.isVisible(pack, selectable)) {
-                deltaX += Math.max(prevMargin, widget.getXMargin(pack));
+                /*? if >=1.21.9 {*/
+                deltaX = Math.max(prevMargin, widget.getXMargin(pack));
+                /*?} else {*/
+                /*deltaX += Math.max(prevMargin, widget.getXMargin(pack));
+                *//*?}*/
                 int width = widget.getWidth(pack);
                 int height = widget.getHeight(pack, entryHeight);
                 int entryX = x + entryWidth - (deltaX + width) * (maxFoldTicks - dynamicpack$foldTicks) / maxFoldTicks;
@@ -86,8 +96,13 @@ public abstract class ResourcePackEntryMixin {
             dynamicpack$foldTicks = Math.min(dynamicpack$foldTicks + 1, maxFoldTicks);
     }
 
-    @Inject(method = "mouseClicked(DDI)Z", at = @At("RETURN"), cancellable = true)
+    /*? if >=1.21.9 {*/
+    @Inject(method = "mouseClicked", at = @At("RETURN"), cancellable = true)
+    private void dynamicpack$afterMouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean isDoubleClick, CallbackInfoReturnable<Boolean> cir) {
+    /*?} else {*/
+    /*@Inject(method = "mouseClicked(DDI)Z", at = @At("RETURN"), cancellable = true)
     private void dynamicpack$afterMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    *//*?}*/
         if (dynamicpack$selected != -1) {
             cir.setReturnValue(false);
             DYNAMIC_WIDGET.onClick(pack);

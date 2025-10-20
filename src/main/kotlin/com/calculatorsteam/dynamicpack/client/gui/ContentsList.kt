@@ -96,7 +96,16 @@ class ContentsList(
             return Component.translatable(key)
         }
 
-        override fun render(
+        /*? if >=1.21.9 {*/
+        override fun renderContent(
+            context: GuiGraphics,
+            mouseX: Int,
+            mouseY: Int,
+            hovered: Boolean,
+            tickDelta: Float
+        )
+        /*?} else {*/
+        /*override fun render(
             context: GuiGraphics,
             index: Int,
             y: Int,
@@ -107,11 +116,17 @@ class ContentsList(
             mouseY: Int,
             hovered: Boolean,
             tickDelta: Float
-        ) {
+        )
+        *//*?}*/
+        {
             val txt = content.name ?: content.id
             val text = Component.literal(txt)
             context.drawString(this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
-            stateButton.x = x + entryWidth - 140
+            /*? if >=1.21.9 {*/
+            stateButton.x = x + this.width - 138
+            /*?} else {*/
+            /*stateButton.x = x + entryWidth - 140
+            *//*?}*/
             stateButton.y = y
             stateButton.render(context, mouseX, mouseY, tickDelta)
         }
@@ -147,7 +162,16 @@ class ContentsList(
         private fun currentState(): Component =
             Component.literal(baseEnum.getCurrentState(parent.baseContents))
 
-        override fun render(
+        /*? if >=1.21.9 {*/
+        override fun renderContent(
+            context: GuiGraphics,
+            mouseX: Int,
+            mouseY: Int,
+            hovered: Boolean,
+            tickDelta: Float
+        )
+        /*?} else {*/
+        /*override fun render(
             context: GuiGraphics,
             index: Int,
             y: Int,
@@ -158,11 +182,17 @@ class ContentsList(
             mouseY: Int,
             hovered: Boolean,
             tickDelta: Float
-        ) {
+        )
+        *//*?}*/
+        {
             val txt = baseEnum.name ?: baseEnum.id
             val text = Component.literal(txt)
             context.drawString(this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
-            stateButton.x = x + entryWidth - 140
+            /*? if >=1.21.9 {*/
+            stateButton.x = x + this.width - 138
+            /*?} else {*/
+            /*stateButton.x = x + entryWidth - 140
+            *//*?}*/
             stateButton.y = y
             stateButton.render(context, mouseX, mouseY, tickDelta)
         }
