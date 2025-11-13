@@ -13,7 +13,13 @@
 
 <p align="center">
   <a href="https://modrinth.com/mod/dynamicpack">
-    <img src="https://github.com/RushanM/Minecraft-Mods-Russian-Translation/blob/beta/Ассеты/dynamicpack_cozy_vector.svg?raw=true" width="250" alt="DynamicPack Banner">
+    <img src="https://github.com/CalculatorsTeam/DynamicPack/blob/multiversion/dev/assets/badges/dynamicpack_cozy_vector.svg?raw=true" alt="DynamicPack Banner">
+  </a>
+  <a href="https://modrinth.com/mod/dynamicpack/versions?l=fabric">
+    <img alt="Fabric downloads" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg" />
+  </a>
+  <a href="https://modrinth.com/mod/dynamicpack/versions?l=neoforge">
+    <img alt="NeoForge downloads" src="https://cdn.jsdelivr.net/gh/Hyperbole-Devs/vectors@neoforge_badges/assets/cozy/supported/neoforge_vector.svg" />
   </a>
 </p>
 
