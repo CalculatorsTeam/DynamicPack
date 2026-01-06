@@ -15,9 +15,11 @@ object Constants {
 
     const val VERSION_BUILD: Long = 51
     const val VERSION_NAME_MOD: String = "1.2.1"
-    /*? if >=1.21.9 {*/
-    const val VERSION_NAME_BRANCH: String = "mc1.21.10"
-    /*?} else if >=1.21.6 {*/
+    /*? if >=1.21.11 {*/
+    const val VERSION_NAME_BRANCH: String = "mc1.21.11"
+    /*?} else if >=1.21.9 {*/
+    /*const val VERSION_NAME_BRANCH: String = "mc1.21.10"
+    *//*?} else if >=1.21.6 {*/
     /*const val VERSION_NAME_BRANCH: String = "mc1.21.8"
     *//*?} else if >=1.21.5 {*/
     /*const val VERSION_NAME_BRANCH: String = "mc1.21.5"

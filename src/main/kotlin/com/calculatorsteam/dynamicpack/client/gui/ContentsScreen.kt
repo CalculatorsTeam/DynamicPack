@@ -34,7 +34,6 @@ class ContentsScreen(
     protected val enums = linkedSetOf<BaseEnum>()
 
     init {
-        this.minecraft = Minecraft.getInstance()
         this.pack.addDestroyListener(onPackReSync)
         this.preferences = (pack.getRemote() as DynamicRepoRemote).preferences
 

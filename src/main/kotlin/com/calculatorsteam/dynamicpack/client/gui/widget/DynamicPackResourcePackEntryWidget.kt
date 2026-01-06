@@ -3,11 +3,11 @@ package com.calculatorsteam.dynamicpack.client.gui.widget
 import com.calculatorsteam.dynamicpack.DynamicPackMod
 import com.calculatorsteam.dynamicpack.client.gui.DynamicPackScreen
 import com.calculatorsteam.dynamicpack.pack.DynamicResourcePack
+import com.calculatorsteam.dynamicpack.platform.Identifier
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.packs.PackSelectionModel
-import net.minecraft.resources.ResourceLocation
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -42,9 +42,9 @@ class DynamicPackResourcePackEntryWidget : ResourcePackEntryWidget {
         DynamicPackMod.getDynamicPackByMinecraftName(entry.id)
 
     companion object {
-        private val BUTTON_TEXTURE = ResourceLocation.tryBuild("dynamicpack", "select_button.png")
-        private val BUTTON_WARNING_TEXTURE = ResourceLocation.tryBuild("dynamicpack", "select_button_warning.png")
-        private val BUTTON_SYNCING_TEXTURE = ResourceLocation.tryBuild("dynamicpack", "select_button_syncing.png")
+        private val BUTTON_TEXTURE = Identifier.tryBuild("dynamicpack", "select_button.png")
+        private val BUTTON_WARNING_TEXTURE = Identifier.tryBuild("dynamicpack", "select_button_warning.png")
+        private val BUTTON_SYNCING_TEXTURE = Identifier.tryBuild("dynamicpack", "select_button_syncing.png")
 
         fun drawTexture(context: GuiGraphics, pack: DynamicResourcePack, x: Int, y: Int, hovered: Boolean) {
             val latestException = pack.getLatestException()

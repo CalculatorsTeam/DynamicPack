@@ -16,9 +16,22 @@ import net.minecraft.locale.Language
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.FormattedText
 import net.minecraft.network.chat.Style
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
 import java.net.URI
+
+typealias Identifier =
+//? if >=1.21.11 {
+        net.minecraft.resources.Identifier
+//?} else {
+        /*net.minecraft.resources.ResourceLocation
+*///?}
+
+typealias Util =
+//? if >=1.21.11 {
+        net.minecraft.util.Util
+//?} else {
+        /*net.minecraft.Util
+*///?}
 
 object VersionFunctions {
     private val client: Minecraft = Minecraft.getInstance()
@@ -78,18 +91,22 @@ object VersionFunctions {
 
     fun drawTexture(
         context: GuiGraphics,
-        texture: ResourceLocation?,
+        texture: Identifier?,
         x: Int, y: Int,
         u: Float, v: Float,
         width: Int, height: Int,
         textureWidth: Int, textureHeight: Int
     ) {
-        /*? if >=1.21.6 {*/
+        /*? if >=1.21.11 {*/
         if (texture != null) {
+            context.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, x, y, u,  v, width, height, textureWidth, textureHeight)
+        }
+        /*?} else if >=1.21.6 {*/
+        /*if (texture != null) {
             RenderSystem.setShaderTexture(0, Minecraft.getInstance().textureManager.getTexture(texture).textureView);
             context.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, texture, x, y, u,  v, width, height, textureWidth, textureHeight)
         }
-        /*?} else if >=1.21.5 {*/
+        *//*?} else if >=1.21.5 {*/
         /*if (texture != null) {
             RenderSystem.setShaderTexture(0, Minecraft.getInstance().getTextureManager().getTexture(texture).getTexture());
             context.blit(net.minecraft.client.renderer.RenderType::guiTextured, texture, x, y, u,  v, width, height, textureWidth, textureHeight)
@@ -124,7 +141,7 @@ object VersionFunctions {
     }
 
     @JvmStatic
-    fun blitSprite(context: Any, sprite: ResourceLocation , x: Int, y: Int, width: Int, height: Int) {
+    fun blitSprite(context: Any, sprite: Identifier , x: Int, y: Int, width: Int, height: Int) {
         /*? if >=1.21.6 {*/
         (context as GuiGraphics).blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height)
         /*?} else if >=1.21.2 {*/
@@ -156,10 +173,6 @@ object VersionFunctions {
         /*?} else {*/
         /*return version.name
         *//*?}*/
-    }
-
-    fun versionString(): String {
-        return "1.21.8"
     }
 
     fun getToastManager():

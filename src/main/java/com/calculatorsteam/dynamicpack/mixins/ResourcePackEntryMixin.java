@@ -6,7 +6,6 @@ import com.calculatorsteam.dynamicpack.platform.VersionFunctions;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -59,11 +58,14 @@ public abstract class ResourcePackEntryMixin/*? if >=1.21.9 {*/ extends net.mine
         boolean selectable = showHoverOverlay();
         dynamicpack$selected = -1;
         if (dynamicpack$foldTicks == maxFoldTicks) {
-            /*? if >=1.21 {*/
-            VersionFunctions.blitSprite(context, ResourceLocation.withDefaultNamespace("transferable_list/unselect"),
+            /*? if >=1.21.11 {*/
+            VersionFunctions.blitSprite(context, net.minecraft.resources.Identifier.withDefaultNamespace("transferable_list/unselect"),
                     x + entryWidth - 16 - deltaX, y + entryWidth / 20 - 16, 16, 32);
-            /*?} else {*/
-            /*context.blit(new ResourceLocation("textures/gui/resource_packs.png"),
+            /*?} else if >=1.21 {*/
+            /*VersionFunctions.blitSprite(context, net.minecraft.resources.ResourceLocation.withDefaultNamespace("transferable_list/unselect"),
+                    x + entryWidth - 16 - deltaX, y + entryWidth / 20 - 16, 16, 32);
+            *//*?} else {*/
+            /*context.blit(new net.minecraft.resources.ResourceLocation("textures/gui/resource_packs.png"),
                     x + entryWidth - 16 - deltaX, y + entryWidth / 20 - 16, 32.0F, 0.0F, 16, 32, 256, 256);
             *//*?}*/
         } else {
@@ -82,7 +84,11 @@ public abstract class ResourcePackEntryMixin/*? if >=1.21.9 {*/ extends net.mine
                 boolean widgetHovered = mouseX <= entryX + width && mouseX >= entryX &&
                         mouseY <= entryY + height && mouseY >= entryY;
                 widget.render(pack, context, entryX, entryY, widgetHovered, tickDelta);
-                if (widgetHovered) dynamicpack$selected = 0; // фиксированный индекс
+                if (widgetHovered) {
+                    dynamicpack$selected = 0; // фиксированный индекс
+                    //? if > 1.21.9
+                    context.requestCursor(parent.isActive() ? com.mojang.blaze3d.platform.cursor.CursorTypes.POINTING_HAND : com.mojang.blaze3d.platform.cursor.CursorTypes.NOT_ALLOWED);
+                }
                 prevMargin = widget.getXMargin(pack);
             }
         }

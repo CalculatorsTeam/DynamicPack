@@ -1,8 +1,8 @@
 package com.calculatorsteam.dynamicpack.client.config;
 
+import com.calculatorsteam.dynamicpack.platform.Util
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import net.minecraft.ChatFormatting
-import net.minecraft.Util
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.util.FormattedCharSequence
 import net.minecraft.util.Mth
-import java.net.URI
 
 /**
  * Screen displayed if YACL (YetAnotherConfigLib) is not found.
@@ -93,18 +92,32 @@ open class NoYACLScreen(private val parent: Screen) : Screen(Component.translata
             }
             /*?} else {*/
             /*if (click.action == ClickEvent.Action.OPEN_URL) {
-                Util.getPlatform().openUri(URI(click.value))
+                Util.getPlatform().openUri(java.net.URI(click.value))
             }
             *//*?}*/
         } else {
-            return handleComponentClicked(style)
+            /*? if >=1.21.11 {*/
+            return this.handleClickEvent(style.getClickEvent());
+            /*?} else {*/
+            /*return handleComponentClicked(style)
+            *//*?}*/
         }
 
         return false
     }
 
     protected fun getStyle(mouseX: Int, mouseY: Int): Style? {
+        /*? if >=1.21.11 {*/
         val y = mouseY - 90
+        val line = y / this.font.lineHeight
+
+        if (y < 0 || y > y + this.wrappedText.size * this.font.lineHeight) return null;
+        if (line < 0 || line >= this.wrappedText.size) return null;
+
+        val clickableStyleFinder = net.minecraft.client.gui.ActiveTextCollector.ClickableStyleFinder(this.font, mouseX, mouseY)
+        return clickableStyleFinder.result()
+        /*?} else {*/
+        /*val y = mouseY - 90
         val line = y / font.lineHeight
 
         if (y < 0 || line !in wrappedText.indices) return null
@@ -112,6 +125,16 @@ open class NoYACLScreen(private val parent: Screen) : Screen(Component.translata
 
         val x = mouseX - (width / 2 - font.width(text) / 2)
         return font.splitter.componentStyleAtWidth(text, x)
-
+        *//*?}*/
     }
+
+    /*? if >=1.21.11 {*/
+    protected fun handleClickEvent(clickEvent: ClickEvent?): Boolean {
+        if (clickEvent == null) {
+            return false;
+        }
+        defaultHandleGameClickEvent(clickEvent, this.minecraft, this);
+        return true;
+    }
+    /*?}*/
 }

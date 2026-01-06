@@ -34,7 +34,6 @@ class DynamicPackScreen(
     private lateinit var syncButtonAll: Button
 
     init {
-        this.minecraft = Minecraft.getInstance()
         setPack(pack)
     }
 
