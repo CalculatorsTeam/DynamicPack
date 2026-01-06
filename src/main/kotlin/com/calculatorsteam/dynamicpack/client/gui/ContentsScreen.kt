@@ -88,7 +88,7 @@ class ContentsScreen(
         contentsList.render(context, mouseX, mouseY, delta)
         VersionFunctions.drawCenteredString(context, this.font, this.title, this.width / 2, 8, -1)
         //? if < 1.21
-        /*super.render(context, mouseX, mouseY, delta)*/
+        //super.render(context, mouseX, mouseY, delta)
     }
 
     override fun init() {

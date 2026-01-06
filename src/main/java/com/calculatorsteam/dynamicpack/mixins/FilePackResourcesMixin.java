@@ -24,7 +24,7 @@ public abstract class FilePackResourcesMixin implements FilePackResourcesAccesso
 
     @Shadow @Final
     //? if < 1.21
-    /*private*/
+    //private
     File file;
 
     @Inject(at = @At("RETURN"), method = "getOrCreateZipFile")

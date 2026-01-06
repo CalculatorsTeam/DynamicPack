@@ -13,7 +13,7 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.kikugie.stonecutter") version "0.7.+"
+    id("dev.kikugie.stonecutter") version "0.8.+"
 }
 
 stonecutter {
@@ -24,7 +24,7 @@ stonecutter {
         fun mc(mcVersion: String, name: String = mcVersion, loaders: Iterable<String>) =
             loaders.forEach { version("$name-$it", mcVersion) }
 
-        mc("1.20.1", loaders = listOf("fabric"))
+        mc("1.20.1", loaders = listOf("fabric", "forge"))
         mc("1.21.1", loaders = listOf("fabric", "neoforge"))
         mc("1.21.3", loaders = listOf("fabric", "neoforge"))
         mc("1.21.4", loaders = listOf("fabric", "neoforge"))

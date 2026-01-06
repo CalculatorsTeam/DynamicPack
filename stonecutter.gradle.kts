@@ -1,12 +1,11 @@
 plugins {
     base
-    kotlin("jvm") version "2.2.20" apply false
+    kotlin("jvm") version "2.3.0" apply false
 
     id("dev.kikugie.stonecutter")
 
-    val modstitchVersion = "0.7.1-unstable"
+    val modstitchVersion = "0.8.4"
     id("dev.isxander.modstitch.base") version modstitchVersion apply false
-    id("dev.isxander.modstitch.shadow") version modstitchVersion apply false
     id("dev.isxander.modstitch.publishing") version modstitchVersion apply false
 }
 stonecutter active "1.21.10-fabric"

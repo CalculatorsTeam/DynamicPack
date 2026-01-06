@@ -66,7 +66,7 @@ open class NoYACLScreen(private val parent: Screen) : Screen(Component.translata
             y += font.lineHeight
         }
         //? if < 1.21
-        /*super.render(context, mouseX, mouseY, delta)*/
+        //super.render(context, mouseX, mouseY, delta)
     }
 
     /*? if >=1.21.9 {*/
