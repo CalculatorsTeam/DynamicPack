@@ -7,10 +7,10 @@ import com.calculatorsteam.dynamicpack.pack.dynamicrepo.BaseContent
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.BaseEnum
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.DynamicRepoPreferences
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.DynamicRepoRemote
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
@@ -78,14 +78,24 @@ class ContentsScreen(
 
     override fun shouldCloseOnEsc(): Boolean = !syncOnExit
 
-    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        /*? if >=1.21 {*/
-        super.render(context, mouseX, mouseY, delta)
-        /*?} else {*/
+    /*? if >=26.1 {*/
+    override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    /*?} else {*/
+    /*override fun render(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    *//*?}*/
+        /*? if >=26.1 {*/
+        super.extractRenderState(context, mouseX, mouseY, delta)
+        /*?} else if >=1.21 {*/
+        /*super.render(context, mouseX, mouseY, delta)
+        *//*?} else {*/
         /*VersionFunctions.renderBackground(this, context, mouseX, mouseY, delta);
         *//*?}*/
-        contentsList.render(context, mouseX, mouseY, delta)
-        VersionFunctions.drawCenteredString(context, this.font, this.title, this.width / 2, 8, -1)
+        /*? if >=26.1 {*/
+        contentsList.extractRenderState(context, mouseX, mouseY, delta)
+        /*?} else {*/
+        /*contentsList.render(context, mouseX, mouseY, delta)
+        *//*?}*/
+        VersionFunctions.centeredText(context, this.font, this.title, this.width / 2, 8, -1)
         //? if < 1.21
         //super.render(context, mouseX, mouseY, delta)
     }

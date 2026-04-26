@@ -5,13 +5,13 @@ import com.calculatorsteam.dynamicpack.DynamicPackMod
 import com.calculatorsteam.dynamicpack.Constants
 import com.calculatorsteam.dynamicpack.pack.DynamicResourcePack
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.DynamicRepoRemote
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import com.calculatorsteam.dynamicpack.sync.SyncingTask
 import com.calculatorsteam.dynamicpack.util.log.NetworkStat
 import com.calculatorsteam.dynamicpack.util.exception.TranslatableException
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
@@ -43,10 +43,16 @@ class DynamicPackScreen(
         pack.addDestroyListener(destroyListener)
     }
 
-    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        /*? if >=1.21 {*/
-        super.render(context, mouseX, mouseY, delta)
-        /*?} else {*/
+    /*? if >=26.1 {*/
+    override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    /*?} else {*/
+    /*override fun render(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    *//*?}*/
+        /*? if >=26.1 {*/
+        super.extractRenderState(context, mouseX, mouseY, delta)
+        /*?} else if >=1.21 {*/
+        /*super.render(context, mouseX, mouseY, delta)
+        *//*?} else {*/
         /*VersionFunctions.renderBackground(this, context, mouseX, mouseY, delta);
         *//*?}*/
 
@@ -58,7 +64,7 @@ class DynamicPackScreen(
         }
 
         val h = 20
-        VersionFunctions.drawString(context, this.font, this.title, 20, 8, -1)
+        VersionFunctions.text(context, this.font, this.title, 20, 8, -1)
         VersionFunctions.drawWrappedString(
             context,
             Component.translatable("dynamicpack.screen.pack.description").getString(999),
@@ -66,7 +72,7 @@ class DynamicPackScreen(
             width - 125, 2,
             -11141291
         )
-        VersionFunctions.drawString(
+        VersionFunctions.text(
             context, this.font,
             Component.translatable("dynamicpack.screen.pack.remote_type", pack.getRemoteType()),
             20, 40 + h, -1
@@ -116,7 +122,7 @@ class DynamicPackScreen(
             if (latestUpdated > 0) {
                 val date = Date(latestUpdated * 1000)
                 val string = DateFormat.getDateTimeInstance().format(date)
-                VersionFunctions.drawString(
+                VersionFunctions.text(
                     context,
                     this.font,
                     Component.translatable("dynamicpack.screen.pack.latestUpdated", string),

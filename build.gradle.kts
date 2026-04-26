@@ -30,7 +30,12 @@ val loader = when {
     else -> error("Unknown loader")
 }
 
-val javaTargetVersion = if (stonecutter.eval(mcVersion, ">1.20.4")) 21 else 17
+val javaTargetVersion = when {
+    stonecutter.eval(mcVersion, ">1.21.11") -> 25
+    stonecutter.eval(mcVersion, ">1.20.4") -> 21
+    else -> 17
+}
+
 val resolvedModId = resolveProp("modId") ?: error("modId is required")
 val gitHash = gitHash()
 
@@ -73,6 +78,7 @@ modstitch {
                 "1.21.8" -> 81
                 "1.21.10" -> 88
                 "1.21.11" -> 94.1
+                "26.1.2" -> 101.1
                 else -> throw IllegalArgumentException("Please store the resource pack version for $mcVersion in build.gradle.kts! https://minecraft.wiki/w/Pack_format")
             }.toString()
         )

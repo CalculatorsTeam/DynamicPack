@@ -23,8 +23,12 @@ public abstract class FilePackResourcesMixin implements FilePackResourcesAccesso
     @Shadow public abstract void close();
 
     @Shadow @Final
-    //? if < 1.21
-    //private
+    /*? if >=26.1 {*/
+    private
+    /*?} else if >=1.21.2 {*/
+    /*?} else {*/
+    /*private
+    *//*?}*/
     File file;
 
     @Inject(at = @At("RETURN"), method = "getOrCreateZipFile")

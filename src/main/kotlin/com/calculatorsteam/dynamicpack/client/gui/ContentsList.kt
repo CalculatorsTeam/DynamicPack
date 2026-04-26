@@ -3,11 +3,11 @@ package com.calculatorsteam.dynamicpack.client.gui
 import com.calculatorsteam.dynamicpack.client.config.Config
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.BaseContent
 import com.calculatorsteam.dynamicpack.pack.dynamicrepo.BaseEnum
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import com.calculatorsteam.dynamicpack.util.enums.OverrideType
 import com.calculatorsteam.dynamicpack.util.log.Out
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.ContainerObjectSelectionList
 import net.minecraft.client.gui.components.Tooltip
@@ -96,17 +96,25 @@ class ContentsList(
             return Component.translatable(key)
         }
 
-        /*? if >=1.21.9 {*/
-        override fun renderContent(
-            context: GuiGraphics,
+        /*? if >=26.1 {*/
+        override fun extractContent(
+            context: GuiGraphicsExtractor,
             mouseX: Int,
             mouseY: Int,
             hovered: Boolean,
             tickDelta: Float
         )
-        /*?} else {*/
+        /*?} else if >=1.21.9 {*/
+        /*override fun renderContent(
+            context: GuiGraphicsExtractor,
+            mouseX: Int,
+            mouseY: Int,
+            hovered: Boolean,
+            tickDelta: Float
+        )
+        *//*?} else {*/
         /*override fun render(
-            context: GuiGraphics,
+            context: GuiGraphicsExtractor,
             index: Int,
             y: Int,
             x: Int,
@@ -121,14 +129,18 @@ class ContentsList(
         {
             val txt = content.name ?: content.id
             val text = Component.literal(txt)
-            context.drawString(this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
+            VersionFunctions.text(context, this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
             /*? if >=1.21.9 {*/
             stateButton.x = x + this.width - 138
             /*?} else {*/
             /*stateButton.x = x + entryWidth - 140
             *//*?}*/
             stateButton.y = y
-            stateButton.render(context, mouseX, mouseY, tickDelta)
+            /*? if >=26.1 {*/
+            stateButton.extractRenderState(context, mouseX, mouseY, tickDelta)
+            /*?} else {*/
+            /*stateButton.render(context, mouseX, mouseY, tickDelta)
+            *//*?}*/
         }
     }
 
@@ -162,17 +174,25 @@ class ContentsList(
         private fun currentState(): Component =
             Component.literal(baseEnum.getCurrentState(parent.baseContents))
 
-        /*? if >=1.21.9 {*/
-        override fun renderContent(
-            context: GuiGraphics,
+        /*? if >=26.1 {*/
+        override fun extractContent(
+            context: GuiGraphicsExtractor,
             mouseX: Int,
             mouseY: Int,
             hovered: Boolean,
             tickDelta: Float
         )
-        /*?} else {*/
+        /*?} else if >=1.21.9 {*/
+        /*override fun renderContent(
+            context: GuiGraphicsExtractor,
+            mouseX: Int,
+            mouseY: Int,
+            hovered: Boolean,
+            tickDelta: Float
+        )
+        *//*?} else {*/
         /*override fun render(
-            context: GuiGraphics,
+            context: GuiGraphicsExtractor,
             index: Int,
             y: Int,
             x: Int,
@@ -187,14 +207,18 @@ class ContentsList(
         {
             val txt = baseEnum.name ?: baseEnum.id
             val text = Component.literal(txt)
-            context.drawString(this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
+            VersionFunctions.text(context, this@ContentsList.minecraft.font, text, x - 50, y + 10, -1, false)
             /*? if >=1.21.9 {*/
             stateButton.x = x + this.width - 138
             /*?} else {*/
             /*stateButton.x = x + entryWidth - 140
             *//*?}*/
             stateButton.y = y
-            stateButton.render(context, mouseX, mouseY, tickDelta)
+            /*? if >=26.1 {*/
+            stateButton.extractRenderState(context, mouseX, mouseY, tickDelta)
+            /*?} else {*/
+            /*stateButton.render(context, mouseX, mouseY, tickDelta)
+            *//*?}*/
         }
     }
 

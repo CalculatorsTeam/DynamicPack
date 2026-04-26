@@ -74,7 +74,7 @@ abstract class DynamicPackModBase : DynamicPackMod() {
 
     fun onWorldJoinForUpdateChecks(player: LocalPlayer?) {
         if (Constants.isDebugMessageOnWorldJoin()) {
-            VersionFunctions.displayClientMessage(
+            VersionFunctions.sendSystemMessage(
                 player,
                 Component.literal("Debug message on world join")
                     .withStyle(ChatFormatting.GREEN)
@@ -83,7 +83,7 @@ abstract class DynamicPackModBase : DynamicPackMod() {
         when {
             player == null -> Out.warn("player == null on world join")
             !StatusChecker.isSafe() -> {
-                VersionFunctions.displayClientMessage(
+                VersionFunctions.sendSystemMessage(
                     player,
                     Component.translatable(
                         "dynamicpack.status_checker.not_safe",
@@ -95,7 +95,7 @@ abstract class DynamicPackModBase : DynamicPackMod() {
                     Component.translatable("dynamicpack.status_checker.not_safe.toast.description")
                 )
             }
-            !StatusChecker.isFormatActual() -> VersionFunctions.displayClientMessage(
+            !StatusChecker.isFormatActual() -> VersionFunctions.sendSystemMessage(
                 player,
                 Component.translatable(
                     "dynamicpack.status_checker.format_not_actual",

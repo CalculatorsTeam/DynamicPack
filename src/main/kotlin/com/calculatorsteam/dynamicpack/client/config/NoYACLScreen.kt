@@ -1,9 +1,9 @@
 package com.calculatorsteam.dynamicpack.client.config;
 
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import com.calculatorsteam.dynamicpack.platform.Util
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import net.minecraft.ChatFormatting
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.ClickEvent
@@ -50,18 +50,24 @@ open class NoYACLScreen(private val parent: Screen) : Screen(Component.translata
         )
     }
 
-    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        /*? if >=1.21 {*/
-        super.render(context, mouseX, mouseY, delta)
-        /*?} else {*/
+    /*? if >=26.1 {*/
+    override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    /*?} else {*/
+    /*override fun render(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+    *//*?}*/
+        /*? if >=26.1 {*/
+        super.extractRenderState(context, mouseX, mouseY, delta)
+        /*?} else if >=1.21 {*/
+        /*super.render(context, mouseX, mouseY, delta)
+        *//*?} else {*/
         /*VersionFunctions.renderBackground(this, context, mouseX, mouseY, delta);
         *//*?}*/
 
-        context.drawCenteredString(font, titleSequence, width / 2, 70, -1)
+        VersionFunctions.centeredText(context, font, titleSequence, width / 2, 70, -1)
 
         var y = 90
         for (line in wrappedText) {
-            context.drawCenteredString(font, line, width / 2, y, -1)
+            VersionFunctions.centeredText(context, font, line, width / 2, y, -1)
             y += font.lineHeight
         }
         //? if < 1.21

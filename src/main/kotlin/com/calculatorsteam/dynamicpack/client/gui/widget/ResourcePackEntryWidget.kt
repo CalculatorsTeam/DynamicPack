@@ -1,6 +1,6 @@
 package com.calculatorsteam.dynamicpack.client.gui.widget
 
-import net.minecraft.client.gui.GuiGraphics
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.packs.PackSelectionModel
 
 /**
@@ -14,9 +14,9 @@ interface ResourcePackEntryWidget {
     fun getY(pack: PackSelectionModel.Entry, rowHeight: Int): Int =
         (rowHeight - getHeight(pack, rowHeight)) / 2
     fun getXMargin(pack: PackSelectionModel.Entry): Int = 7
-    fun render(
+    fun extractRenderState(
         pack: PackSelectionModel.Entry,
-        context: GuiGraphics,
+        context: GuiGraphicsExtractor,
         x: Int,
         y: Int,
         hovered: Boolean,

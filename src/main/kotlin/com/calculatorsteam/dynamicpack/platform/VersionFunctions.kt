@@ -3,7 +3,6 @@ package com.calculatorsteam.dynamicpack.platform
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.components.Tooltip
@@ -18,6 +17,13 @@ import net.minecraft.network.chat.FormattedText
 import net.minecraft.network.chat.Style
 import net.minecraft.util.FormattedCharSequence
 import java.net.URI
+
+typealias GuiGraphicsExtractor =
+//? if >=26.1 {
+        net.minecraft.client.gui.GuiGraphicsExtractor
+//?} else {
+        /*net.minecraft.client.gui.GuiGraphics
+*///?}
 
 typealias Identifier =
 //? if >=1.21.11 {
@@ -57,7 +63,7 @@ object VersionFunctions {
      * Draw wrapped string with maximum lines.
      */
     fun drawWrappedString(
-        matrices: GuiGraphics,
+        context: GuiGraphicsExtractor,
         stringIn: String,
         x: Int, y: Int,
         wrapWidth: Int,
@@ -81,7 +87,7 @@ object VersionFunctions {
                 val width = client.font.width(line)
                 x1 += (wrapWidth - width)
             }
-            matrices.drawString(client.font, line, x1, y + i * client.font.lineHeight, color, false)
+            text(context, client.font, line, x1, y + i * client.font.lineHeight, color, false)
         }
     }
 
@@ -90,7 +96,7 @@ object VersionFunctions {
     }
 
     fun drawTexture(
-        context: GuiGraphics,
+        context: GuiGraphicsExtractor,
         texture: Identifier?,
         x: Int, y: Int,
         u: Float, v: Float,
@@ -125,36 +131,72 @@ object VersionFunctions {
     }
 
     fun renderBackground(screen: Screen, context: Any, mouseX: Int, mouseY: Int, delta: Float) {
-        /*? if >=1.21 {*/
-        screen.renderBackground(context as GuiGraphics, mouseX, mouseY, delta)
-        /*?} else {*/
-        /*screen.renderBackground(context as GuiGraphics)
+        /*? if >=26.1 {*/
+        screen.extractBackground(context as GuiGraphicsExtractor, mouseX, mouseY, delta)
+        /*?} else if >=1.21 {*/
+        /*screen.renderBackground(context as GuiGraphicsExtractor, mouseX, mouseY, delta)
+        *//*?} else {*/
+        /*screen.renderBackground(context as GuiGraphicsExtractor)
         *//*?}*/
     }
 
-    fun drawString(context: Any, font: Font, component: Component, x: Int, y: Int, color: Int) {
-        (context as GuiGraphics).drawString(font, component, x, y, color)
+    fun text(context: Any, font: Font, component: Component, x: Int, y: Int, color: Int) {
+        //? if >=26.1 {
+        (context as GuiGraphicsExtractor).text(font, component, x, y, color)
+        //?} else {
+        /*(context as GuiGraphicsExtractor).drawString(font, component, x, y, color)
+        *///?}
     }
 
-    fun drawCenteredString(context: Any, font: Font, title: Component, x: Int, y: Int, color: Int) {
-        (context as GuiGraphics).drawCenteredString(font, title, x, y, color)
+    fun text(context: Any, font: Font, component: Component, x: Int, y: Int, color: Int, dropShadow: Boolean) {
+        //? if >=26.1 {
+        (context as GuiGraphicsExtractor).text(font, component, x, y, color, dropShadow)
+        //?} else {
+        /*(context as GuiGraphicsExtractor).drawString(font, component, x, y, color)
+        *///?}
+    }
+
+    fun text(context: Any, font: Font, component: FormattedCharSequence, x: Int, y: Int, color: Int, dropShadow: Boolean) {
+        //? if >=26.1 {
+        (context as GuiGraphicsExtractor).text(font, component, x, y, color, dropShadow)
+        //?} else {
+        /*(context as GuiGraphicsExtractor).drawString(font, component, x, y, color)
+        *///?}
+    }
+
+    fun centeredText(context: Any, font: Font, title: Component, x: Int, y: Int, color: Int) {
+        //? if >=26.1 {
+        (context as GuiGraphicsExtractor).centeredText(font, title, x, y, color)
+        //?} else {
+        /*(context as GuiGraphicsExtractor).drawCenteredString(font, title, x, y, color)
+        *///?}
+    }
+
+    fun centeredText(context: Any, font: Font, title: FormattedCharSequence, x: Int, y: Int, color: Int) {
+        //? if >=26.1 {
+        (context as GuiGraphicsExtractor).centeredText(font, title, x, y, color)
+        //?} else {
+        /*(context as GuiGraphicsExtractor).drawCenteredString(font, title, x, y, color)
+        *///?}
     }
 
     @JvmStatic
     fun blitSprite(context: Any, sprite: Identifier , x: Int, y: Int, width: Int, height: Int) {
         /*? if >=1.21.6 {*/
-        (context as GuiGraphics).blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height)
+        (context as GuiGraphicsExtractor).blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height)
         /*?} else if >=1.21.2 {*/
-        /*(context as GuiGraphics).blitSprite(net.minecraft.client.renderer.RenderType::guiTextured, sprite, x, y, width, height)
+        /*(context as GuiGraphicsExtractor).blitSprite(net.minecraft.client.renderer.RenderType::guiTextured, sprite, x, y, width, height)
         *//*?} else if >=1.21 {*/
-        /*(context as GuiGraphics).blitSprite(sprite, x, y, width, height)
+        /*(context as GuiGraphicsExtractor).blitSprite(sprite, x, y, width, height)
         *//*?}*/
     }
 
-    fun displayClientMessage(player: LocalPlayer?, chatComponent: Component) {
-        /*? if >=1.21.2 {*/
-        player?.displayClientMessage(chatComponent, false)
-        /*?} else {*/
+    fun sendSystemMessage(player: LocalPlayer?, chatComponent: Component) {
+        /*? if >=26.1 {*/
+        player?.sendSystemMessage(chatComponent)
+        /*?} else if >=1.21.2 {*/
+        /*player?.displayClientMessage(chatComponent, false)
+        *//*?} else {*/
         /*player?.sendSystemMessage(chatComponent)
         *//*?}*/
     }

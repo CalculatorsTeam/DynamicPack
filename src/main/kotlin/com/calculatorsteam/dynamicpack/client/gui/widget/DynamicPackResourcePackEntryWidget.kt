@@ -3,10 +3,10 @@ package com.calculatorsteam.dynamicpack.client.gui.widget
 import com.calculatorsteam.dynamicpack.DynamicPackMod
 import com.calculatorsteam.dynamicpack.client.gui.DynamicPackScreen
 import com.calculatorsteam.dynamicpack.pack.DynamicResourcePack
+import com.calculatorsteam.dynamicpack.platform.GuiGraphicsExtractor
 import com.calculatorsteam.dynamicpack.platform.Identifier
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.packs.PackSelectionModel
 import kotlin.math.cos
 import kotlin.math.sin
@@ -18,9 +18,9 @@ class DynamicPackResourcePackEntryWidget : ResourcePackEntryWidget {
     override fun isVisible(pack: PackSelectionModel.Entry, selectable: Boolean): Boolean =
         getDynamicPackFromArgs(pack) != null
 
-    override fun render(
+    override fun extractRenderState(
         pack: PackSelectionModel.Entry,
-        context: GuiGraphics,
+        context: GuiGraphicsExtractor,
         x: Int,
         y: Int,
         hovered: Boolean,
@@ -46,7 +46,7 @@ class DynamicPackResourcePackEntryWidget : ResourcePackEntryWidget {
         private val BUTTON_WARNING_TEXTURE = Identifier.tryBuild("dynamicpack", "select_button_warning.png")
         private val BUTTON_SYNCING_TEXTURE = Identifier.tryBuild("dynamicpack", "select_button_syncing.png")
 
-        fun drawTexture(context: GuiGraphics, pack: DynamicResourcePack, x: Int, y: Int, hovered: Boolean) {
+        fun drawTexture(context: GuiGraphicsExtractor, pack: DynamicResourcePack, x: Int, y: Int, hovered: Boolean) {
             val latestException = pack.getLatestException()
             when {
                 pack.isSyncing -> {

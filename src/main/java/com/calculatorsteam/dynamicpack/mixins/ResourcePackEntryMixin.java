@@ -3,7 +3,6 @@ package com.calculatorsteam.dynamicpack.mixins;
 import com.calculatorsteam.dynamicpack.client.gui.widget.DynamicPackResourcePackEntryWidget;
 import com.calculatorsteam.dynamicpack.client.gui.widget.ResourcePackEntryWidget;
 import com.calculatorsteam.dynamicpack.platform.VersionFunctions;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.packs.TransferableSelectionList;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import org.spongepowered.asm.mixin.Final;
@@ -40,13 +39,15 @@ public abstract class ResourcePackEntryMixin/*? if >=1.21.9 {*/ extends net.mine
     private static final ResourcePackEntryWidget DYNAMIC_WIDGET = new DynamicPackResourcePackEntryWidget();
 
     @Inject(at = @At("TAIL"),
-            /*? if >=1.21.9 {*/
-            method = "renderContent"
-            /*?} else {*/
+            /*? if >=26.1 {*/
+            method = "extractContent"
+            /*?} else if >=1.21.9 {*/
+            /*method = "renderContent"
+            *//*?} else {*/
             /*method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIZF)V"
             *//*?}*/
     )
-    private void render(GuiGraphics context, /*? if <1.21.9 {*//*int index, int y, int x, int entryWidth, int entryHeight,*//*?}*/ int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo info) {
+    private void extractContent(/*? if >=26.1 {*/net.minecraft.client.gui.GuiGraphicsExtractor/*?} else {*//*net.minecraft.client.gui.GuiGraphics*//*?}*/ context, /*? if <1.21.9 {*//*int index, int y, int x, int entryWidth, int entryHeight,*//*?}*/ int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo info) {
         //? if >=1.21.9
         final int x = this.getX(), y = this.getY() + 2, entryWidth = this.getWidth(), entryHeight = this.getHeight();
         int prevMargin = 0;
@@ -83,7 +84,7 @@ public abstract class ResourcePackEntryMixin/*? if >=1.21.9 {*/ extends net.mine
                 deltaX += width;
                 boolean widgetHovered = mouseX <= entryX + width && mouseX >= entryX &&
                         mouseY <= entryY + height && mouseY >= entryY;
-                widget.render(pack, context, entryX, entryY, widgetHovered, tickDelta);
+                widget.extractRenderState(pack, context, entryX, entryY, widgetHovered, tickDelta);
                 if (widgetHovered) {
                     dynamicpack$selected = 0; // фиксированный индекс
                     //? if > 1.21.9
