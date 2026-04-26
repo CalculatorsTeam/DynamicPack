@@ -1,1 +1,6 @@
-{"latest_version":{"build":52,"safe":50,"format":50},"latest_version_fabric":{"build":52,"safe":50,"format":50},"latest_version_forge":{"build":52,"safe":50,"format":50},"latest_version_neoforge":{"build":52,"safe":50,"format":50}}
+{
+	"latest_version": { "build": 53, "safe": 50, "format": 50 },
+	"latest_version_fabric": { "build": 53, "safe": 50, "format": 50 },
+	"latest_version_forge": { "build": 53, "safe": 50, "format": 50 },
+	"latest_version_neoforge": { "build": 53, "safe": 50, "format": 50 }
+}
